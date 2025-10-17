@@ -37,73 +37,72 @@ app.use((err, req, res, next) => {
   });
 });
 
+app.get('/test-error', (req, res) => {
+  throw new Error('Something went wrong');
+}
+);
 
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello world!' });
-});
-
-
-
-
-
-app.get('/notes', (req, res) => {
-  res.status(200).json(
-    {
-      "message": "Retrieved all notes"
-    }, [{
-      id: 1, tilte: 'lalala1', description: 'opopopopo', auther: 'Alice',
-      createdDate: new Date()
-    }, {
-      id: 2, tilte: 'lalala2', description: 'opopopopo', auther: 'Bob',
-      createdDate: new Date()
-    }, {
-      id: 3, tilte: 'lalala3', description: 'opopopopo', auther: 'Jak',
-      createdDate: new Date()
-    }, {
-      id: 4, tilte: 'lalala4', description: 'opopopopo', auther: 'Tak',
-      createdDate: new Date()
-    }, {
-      id: 1, tilte: 'lalala5', description: 'opopopopo', auther: 'Si',
-      createdDate: new Date()
-    }, {
-      id: 5, tilte: 'lalala6', description: 'opopopopo', auther: 'Stalo',
-      createdDate: new Date()
-    }, {
-      id: 6, tilte: 'lalala6', description: 'opopopopo', auther: 'Ja',
-      createdDate: new Date()
-    }, {
-      id: 7, tilte: 'lalala6', description: 'opopopopo', auther: 'Ne',
-      createdDate: new Date()
-    }, {
-      id: 8, tilte: 'lalala', description: 'opopopopo', auther: 'Znaju',
-      createdDate: new Date()
-    }]);
-});
-
-app.get('/notes/:noteId', (req, res) => {
-  const { userId: noteId } = req.params;
-  res.status(200).json(
-    {
-      "message": "Retrieved note with ID: id_param"
-    },
-    { id: noteId });
-});
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-app.get('/test-error', (req, res) => {
-  throw new Error('Something went wrong');
-}
-);
-app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
-  res.status(500).json({
-    message: 'Internal Server Error',
-    error: err.message,
-  });
+
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Hello world!' });
 });
+
+app.get('/notes', (req, res) => {
+  res.status(200).json(
+    {
+      message: "Retrieved all notes",
+      notes: [
+        {
+          id: 1, title: 'lalala1', description: 'opopopopo', author: 'Alice',
+          createdDate: new Date()
+        },
+        {
+          id: 2, title: 'lalala2', description: 'opopopopo', author: 'Bob',
+          createdDate: new Date()
+        },
+        {
+          id: 3, title: 'lalala3', description: 'opopopopo', author: 'Jak',
+          createdDate: new Date()
+        },
+        {
+          id: 4, title: 'lalala4', description: 'opopopopo', author: 'Tak',
+          createdDate: new Date()
+        },
+        {
+          id: 1, title: 'lalala5', description: 'opopopopo', author: 'Si',
+          createdDate: new Date()
+        },
+        {
+          id: 5, title: 'lalala6', description: 'opopopopo', author: 'Stalo',
+          createdDate: new Date()
+        },
+        {
+          id: 6, title: 'lalala6', description: 'opopopopo', author: 'Ja',
+          createdDate: new Date()
+        },
+        {
+          id: 7, title: 'lalala6', description: 'opopopopo', author: 'Ne',
+          createdDate: new Date()
+        },
+        {
+          id: 8, title: 'lalala', description: 'opopopopo', author: 'Znaju',
+          createdDate: new Date()
+        }
+      ]
+    });
+});
+
+app.get('/notes/:noteId', (req, res) => {
+  const { noteId } = req.params;
+  res.status(200).json(
+    { message: `Retrieved note with ID: ${noteId}` });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
