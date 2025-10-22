@@ -1,6 +1,6 @@
 import { Joi, Segments } from 'celebrate';
 import { isValidObjectId } from 'mongoose';
-import { TAGS } from '../constants/tags';
+import { TAGS } from '../constants/tags.js';
 
 const tagValidator = Joi.string().valid(...TAGS).messages({
   "any.only": `Tag must be one of: ${TAGS.join(', ')}`,
