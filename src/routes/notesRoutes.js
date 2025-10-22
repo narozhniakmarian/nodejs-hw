@@ -3,16 +3,16 @@
 import { createNote, deleteNote, getNoteById, getNotes, updateNote } from '../controllers/notesController.js';
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-import { createNoteSchema, getNotesSchema, noteIdParamSchema, updateNoteSchema } from '../validations/noteValidation.js';
+import { createNoteSchema, getAllNotesSchema, noteIdSchema, updateNoteSchema } from '../validations/noteValidation.js';
 
 const router = Router();
 
-router.get('/notes', celebrate(getNotesSchema), getNotes);
-router.get('/notes/:noteId', celebrate(noteIdParamSchema), getNoteById);
+router.get('/notes', celebrate(getAllNotesSchema), getNotes);
+router.get('/notes/:noteId', celebrate(noteIdSchema), getNoteById);
 
 router.post('/notes', celebrate(createNoteSchema), createNote);
 
-router.delete('/notes/:noteId', celebrate(noteIdParamSchema), deleteNote);
+router.delete('/notes/:noteId', celebrate(noteIdSchema), deleteNote);
 
 router.patch('/notes/:noteId', celebrate(updateNoteSchema), updateNote);
 
