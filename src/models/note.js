@@ -1,6 +1,21 @@
 // src/models/note.js
 import { Schema, model } from 'mongoose';
 
+
+const allowedTags = [
+  'Work',
+  'Personal',
+  'Meeting',
+  'Shopping',
+  'Ideas',
+  'Travel',
+  'Finance',
+  'Health',
+  'Important',
+  'Todo',
+];
+
+
 const NoteSchema = new Schema({
   title: {
     type: String,
@@ -8,13 +23,14 @@ const NoteSchema = new Schema({
     trim: true,
   },
   content: {
-    type: String,
-    required: true,
+    required: false,
+    default: '',
     trim: true,
   },
   tag: {
     type: String,
-    required: false,
+    enum: allowedTags,
+    default: 'Todo',
     trim: true,
   },
 }, {
