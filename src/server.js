@@ -6,7 +6,7 @@ import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import cors from 'cors';
-import { ConnectMongoDB } from './db/connectMongoDB.js';
+import { connectMongoDB } from './db/connectMongoDB.js';
 import notesRoutes from './routes/notesRoutes.js';
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(notesRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-await ConnectMongoDB();
+await connectMongoDB();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
