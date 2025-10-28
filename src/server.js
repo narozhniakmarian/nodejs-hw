@@ -25,20 +25,6 @@ app.use(
 );
 
 
-app.use((err, req, res, next) => {
-  console.error(err);
-
-  const isProd = process.env.NODE_ENV === "production";
-
-  res.status(500).json({
-    message: isProd
-      ? "Something went wrong. Please try again later."
-      : err.message,
-  });
-});
-
-
-
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello world!' });
 });
@@ -93,6 +79,20 @@ app.get('/notes/:noteId', (req, res) => {
   res.status(200).json(
     { message: `Retrieved note with ID: ${noteId}` });
 });
+
+
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  const isProd = process.env.NODE_ENV === "production";
+
+  res.status(500).json({
+    message: isProd
+      ? "Something went wrong. Please try again later."
+      : err.message,
+  });
+});
+
 
 app.get('/test-error', (req, res) => {
   throw new Error('Something went wrong');
