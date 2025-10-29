@@ -80,11 +80,13 @@ app.get('/notes/:noteId', (req, res) => {
     { message: `Retrieved note with ID: ${noteId}` });
 });
 
+app.get('/test-error', (req, res, next) => {
+  next(new Error('Something went wrong'));
+});
 
-app.get('/test-error', (req, res) => {
-  throw new Error('Something went wrong');
-}
-);
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
 app.use((err, req, res, next) => {
   console.error(err);
@@ -97,14 +99,6 @@ app.use((err, req, res, next) => {
       : err.message,
   });
 });
-
-
-
-
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
