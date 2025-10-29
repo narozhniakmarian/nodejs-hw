@@ -23,6 +23,7 @@ const NoteSchema = new Schema({
     trim: true,
   },
   content: {
+    type: String,
     required: false,
     default: '',
     trim: true,
