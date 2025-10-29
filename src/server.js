@@ -81,6 +81,11 @@ app.get('/notes/:noteId', (req, res) => {
 });
 
 
+app.get('/test-error', (req, res) => {
+  throw new Error('Something went wrong');
+}
+);
+
 app.use((err, req, res, next) => {
   console.error(err);
 
@@ -94,10 +99,7 @@ app.use((err, req, res, next) => {
 });
 
 
-app.get('/test-error', (req, res) => {
-  throw new Error('Something went wrong');
-}
-);
+
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
