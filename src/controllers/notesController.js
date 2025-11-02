@@ -14,7 +14,7 @@ export const getNotes = async (req, res, next) => {
       filter.$text = { $search: search };
     }
 
-    if (tag) filter.tag = { $regex: tag, $options: 'i' };
+    if (tag) filter.tag = tag;
 
     const sort = search
       ? { score: { $meta: "textScore" } }
@@ -31,7 +31,7 @@ export const getNotes = async (req, res, next) => {
     const totalPages = Math.ceil(totalItems / prePage);
 
     res.status(200).json({
-      page, prePage: prePage, totalItems, totalPages, data: notes
+      page, prePage: prePage, totalItems, totalPages, notes
     });
   } catch (error) {
     next(error);
