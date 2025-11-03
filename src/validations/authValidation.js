@@ -30,3 +30,18 @@ export const resetPasswordSchema = {
     token: Joi.string().required(),
   }),
 };
+
+
+export const updateUserSchema = {
+  [Segments.BODY]: Joi.object({
+    username: Joi.string().trim(),
+    email: Joi.string().email(),
+  }).min(1),
+};
+
+export const updatePasswordSchema = {
+  [Segments.BODY]: Joi.object({
+    oldPassword: Joi.string().required(),
+    newPassword: Joi.string().min(8).required(),
+  }),
+};
