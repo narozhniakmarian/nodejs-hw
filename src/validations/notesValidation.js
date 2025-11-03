@@ -64,5 +64,5 @@ export const updateNoteSchema = {
       "string.max": "Content should have at most {#limit} characters",
     }),
     tag: tagValidator
-  }).min(1), //!не дозволяємо порожнє тіло
+  }).min(1),
 };
