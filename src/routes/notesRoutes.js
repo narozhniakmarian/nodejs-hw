@@ -3,7 +3,7 @@
 import { createNote, deleteNote, getNoteById, getNotes, updateNote } from '../controllers/notesController.js';
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-import { createNoteSchema, getAllNotesSchema, noteIdSchema, updateNoteSchema } from '../validations/noteValidation.js';
+import { createNoteSchema, getAllNotesSchema, noteIdSchema, updateNoteSchema } from '../validations/notesValidation.js';
 
 const router = Router();
 
