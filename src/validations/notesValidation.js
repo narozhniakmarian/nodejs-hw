@@ -14,7 +14,7 @@ export const createNoteSchema = {
       "string.max": "Title should have at most {#limit} characters",
       "any.required": "Title is required",
     }),
-    content: Joi.string().allow('').max(1000).required().messages({
+    content: Joi.string().allow('').max(1000).optional().messages({
       "string.base": "Content must be a string",
       "string.min": "Content should have at least {#limit} characters",
       "string.max": "Content should have at most {#limit} characters",
@@ -31,8 +31,8 @@ export const getAllNotesSchema = {
     title: Joi.string().optional(),
     tag: tagValidator.optional(),
     search: Joi.string().trim().allow('').optional(),
-    sortBy: Joi.string().valid("_id", "title", "content").insensitive().default("_id"),
-    sortOrder: Joi.string().valid("asc", "desc").insensitive().default("asc"),
+    sortBy: Joi.string().valid("_id", "title", "content").insensitive().default("_id").optional(),
+    sortOrder: Joi.string().valid("asc", "desc").insensitive().default("asc").optional(),
   }),
 };
 
