@@ -20,7 +20,7 @@ export const getAllNotes = async (req, res, next) => {
       ? { score: { $meta: "textScore" } }
       : { [sortBy]: sortOrder === "asc" ? 1 : -1 };
 
-    const [notes, totalItems] = await Promise.all([
+    const [notes, totalNotes] = await Promise.all([
       Note.find(filter, search ? { score: { $meta: "textScore" } } : {})
         .sort(sort)
         .skip(skip)
@@ -28,10 +28,10 @@ export const getAllNotes = async (req, res, next) => {
       Note.countDocuments(filter),
     ]);
 
-    const totalPages = Math.ceil(totalItems / perPage);
+    const totalPages = Math.ceil(totalNotes / perPage);
 
     res.status(200).json({
-      page, perPage: perPage, totalItems, totalPages, notes
+      page, perPage: perPage, totalItems: totalNotes, totalPages, notes
     });
   } catch (error) {
     next(error);
