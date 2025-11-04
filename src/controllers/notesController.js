@@ -4,11 +4,11 @@ import createHttpError from 'http-errors';
 import { Note } from '../models/note.js';
 
 
-export const getNotes = async (req, res, next) => {
+export const getAllNotes = async (req, res, next) => {
   try {
-    const { page = 1, prePage: prePage = 10, tag, search, sortBy = "_id",
+    const { page = 1, perPage: perPage = 10, tag, search, sortBy = "_id",
       sortOrder = "asc", } = req.query;
-    const skip = (page - 1) * prePage;
+    const skip = (page - 1) * perPage;
     const filter = { userId: req.user._id };
     if (search) {
       filter.$text = { $search: search };
@@ -24,14 +24,14 @@ export const getNotes = async (req, res, next) => {
       Note.find(filter, search ? { score: { $meta: "textScore" } } : {})
         .sort(sort)
         .skip(skip)
-        .limit(prePage),
+        .limit(perPage),
       Note.countDocuments(filter),
     ]);
 
-    const totalPages = Math.ceil(totalItems / prePage);
+    const totalPages = Math.ceil(totalItems / perPage);
 
     res.status(200).json({
-      page, prePage: prePage, totalItems, totalPages, notes
+      page, perPage: perPage, totalItems, totalPages, notes
     });
   } catch (error) {
     next(error);
@@ -45,7 +45,7 @@ export const getNoteById = async (req, res, next) => {
     userId: req.user._id,
   });
   if (!note) {
-    next(createHttpError('note not found'));
+    next(createHttpError(401, 'note not found'));
   }
   res.status(200).json(note);
 };
