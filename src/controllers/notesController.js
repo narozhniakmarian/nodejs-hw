@@ -6,22 +6,26 @@ import { Note } from '../models/note.js';
 
 export const getAllNotes = async (req, res, next) => {
   try {
-    const { page = 1, perPage: perPage = 10, tag, search, sortBy = "_id",
-      sortOrder = "asc", } = req.query;
+    const { page = 1, perPage = 10, tag, search } = req.query;
     const skip = (page - 1) * perPage;
     const filter = {};
+
     if (search) {
       filter.$text = { $search: search };
     }
 
-    if (tag) filter.tag = tag;
+    if (tag) {
+      filter.tag = tag;
+    }
 
     const sort = search
       ? { score: { $meta: "textScore" } }
-      : { [sortBy]: sortOrder === "asc" ? 1 : -1 };
+      : { createdAt: -1 };
+
+    const projection = search ? { score: { $meta: "textScore" } } : {};
 
     const [notes, totalNotes] = await Promise.all([
-      Note.find(filter, search ? { score: { $meta: "textScore" } } : {})
+      Note.find(filter, projection)
         .sort(sort)
         .skip(skip)
         .limit(perPage),
@@ -31,7 +35,11 @@ export const getAllNotes = async (req, res, next) => {
     const totalPages = Math.ceil(totalNotes / perPage);
 
     res.status(200).json({
-      page, perPage: perPage, totalItems: totalNotes, totalPages, notes
+      page,
+      perPage,
+      totalNotes,
+      totalPages,
+      notes,
     });
   } catch (error) {
     next(error);
@@ -42,7 +50,8 @@ export const getNoteById = async (req, res, next) => {
   const { noteId } = req.params;
   const note = await Note.findById(noteId);
   if (!note) {
-    next(createHttpError(401, 'note not found'));
+    next(createHttpError(404, 'note not found'));
+    return;
   }
   res.status(200).json(note);
 };

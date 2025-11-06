@@ -20,7 +20,7 @@ export const createNoteSchema = {
       "string.max": "Content should have at most {#limit} characters",
       "any.required": "Content is required",
     }),
-    tag: tagValidator
+    tag: tagValidator.optional()
   }),
 };
 
@@ -31,14 +31,12 @@ export const getAllNotesSchema = {
     title: Joi.string().optional(),
     tag: tagValidator.optional(),
     search: Joi.string().trim().allow('').optional(),
-    sortBy: Joi.string().valid("_id", "title", "content").insensitive().default("_id").optional(),
-    sortOrder: Joi.string().valid("asc", "desc").insensitive().default("asc").optional(),
   }),
 };
 
 // Кастомний валідатор для ObjectId
 const objectIdValidator = (value, helpers) => {
-  return !isValidObjectId(value) ? helpers.message('Invalid id format') : value;
+  return !isValidObjectId(value) ? helpers.message('Invalid  note id ') : value;
 };
 // Схема для перевірки параметра noteId
 export const noteIdSchema = {
@@ -63,6 +61,6 @@ export const updateNoteSchema = {
       "string.min": "Content should have at least {#limit} characters",
       "string.max": "Content should have at most {#limit} characters",
     }),
-    tag: tagValidator
+    tag: tagValidator.optional()
   }).min(1),
 };
