@@ -1,6 +1,6 @@
 // src/routes/notesRoutes.js
 
-import { createNote, deleteNote, getNoteById, getNotes, updateNote } from '../controllers/notesController.js';
+import { createNote, deleteNote, getNoteById, getAllNotes, updateNote } from '../controllers/notesController.js';
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
 import { createNoteSchema, getAllNotesSchema, noteIdSchema, updateNoteSchema } from '../validations/notesValidation.js';
@@ -10,7 +10,7 @@ const router = Router();
 
 router.use('/notes', authenticate);
 
-router.get('/notes', celebrate(getAllNotesSchema), getNotes);
+router.get('/notes', celebrate(getAllNotesSchema), getAllNotes);
 router.get('/notes/:noteId', celebrate(noteIdSchema), getNoteById);
 
 router.post('/notes', celebrate(createNoteSchema), createNote);
