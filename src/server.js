@@ -6,7 +6,7 @@ import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import cors from 'cors';
-import { ConnectMongoDB } from './db/connectMongoDB.js';
+import { connectMongoDB } from './db/connectMongoDB.js';
 import notesRoutes from './routes/notesRoutes.js';
 import { errors } from 'celebrate';
 
@@ -23,7 +23,7 @@ app.use(notFoundHandler);
 app.use(errors());
 app.use(errorHandler);
 
-await ConnectMongoDB();
+await connectMongoDB();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
