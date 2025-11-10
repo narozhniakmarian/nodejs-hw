@@ -67,7 +67,7 @@ export const logoutUser = async (req, res) => {
 };
 
 
-export const refreshSession = async (req, res, next) => {
+export const refreshUserSession = async (req, res, next) => {
   const session = await Session.findOne({
     _id: req.cookies.sessionId,
     refreshToken: req.cookies.refreshToken,
