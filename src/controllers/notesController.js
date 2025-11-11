@@ -8,7 +8,7 @@ export const getAllNotes = async (req, res, next) => {
   try {
     const { page = 1, perPage = 10, tag, search } = req.query;
     const skip = (page - 1) * perPage;
-    const filter = {};
+    const filter = { userId: req.user._id };
 
     if (search) {
       filter.$text = { $search: search };
@@ -20,7 +20,7 @@ export const getAllNotes = async (req, res, next) => {
 
     const sort = search
       ? { score: { $meta: "textScore" } }
-      : { createdAt: -1 }; // або "_id": -1, або будь-яке фіксоване поле
+      : { createdAt: -1 };
 
     const projection = search ? { score: { $meta: "textScore" } } : {};
 
